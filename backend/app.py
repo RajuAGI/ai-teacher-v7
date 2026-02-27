@@ -101,7 +101,7 @@ def grok_response(prompt):
             "https://api.groq.com/openai/v1/chat/completions",
             headers={"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"},
             json={
-                "model": "llama3-8b-8192",
+                "model": "llama-3.3-70b-versatile",
                 "messages": [
                     {"role": "system", "content": "Tum ek helpful AI teacher ho. Hindi mein jawab do. Simple aur clear explanation do."},
                     {"role": "user", "content": prompt}
@@ -236,7 +236,7 @@ def test_groq():
             "https://api.groq.com/openai/v1/chat/completions",
             headers={"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"},
             json={
-                "model": "llama3-8b-8192",
+                "model": "llama-3.3-70b-versatile",
                 "messages": [{"role": "user", "content": "Say hello in one word"}],
                 "max_tokens": 10
             },
@@ -257,4 +257,3 @@ def debug():
         "GROQ_KEY_LENGTH": len(GROQ_API_KEY),
         "TAVILY_KEY_SET": bool(TAVILY_API_KEY),
     })
-        
