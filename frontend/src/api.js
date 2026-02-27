@@ -1,4 +1,4 @@
-const BACKEND = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000";
+const BACKEND = "https://ai-teacher-v7.onrender.com";
 
 export const register = (data) =>
   fetch(`${BACKEND}/register`, {
