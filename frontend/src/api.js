@@ -1,5 +1,9 @@
 const BACKEND = "https://ai-teacher-v7.onrender.com";
 
+// Backend ko jaagta rakhta hai
+export const pingBackend = () =>
+  fetch(`${BACKEND}/`).catch(() => {});
+
 export const register = (data) =>
   fetch(`${BACKEND}/register`, {
     method: "POST", headers: { "Content-Type": "application/json" },
