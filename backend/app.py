@@ -229,3 +229,13 @@ def leaderboard():
 
 if __name__ == "__main__":
     app.run()
+
+
+@app.route("/debug")
+def debug():
+    return jsonify({
+        "GROQ_KEY_SET": bool(GROQ_API_KEY),
+        "GROQ_KEY_LENGTH": len(GROQ_API_KEY),
+        "TAVILY_KEY_SET": bool(TAVILY_API_KEY),
+    })
+    
