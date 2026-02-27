@@ -227,6 +227,25 @@ def leaderboard():
     conn.close()
     return jsonify(rows)
 
+
+
+@app.route("/test-groq")
+def test_groq():
+    try:
+        res = http_requests.post(
+            "https://api.groq.com/openai/v1/chat/completions",
+            headers={"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"},
+            json={
+                "model": "llama3-8b-8192",
+                "messages": [{"role": "user", "content": "Say hello in one word"}],
+                "max_tokens": 10
+            },
+            timeout=20
+        )
+        return jsonify({"status": res.status_code, "response": res.json()})
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
 if __name__ == "__main__":
     app.run()
 
@@ -238,4 +257,4 @@ def debug():
         "GROQ_KEY_LENGTH": len(GROQ_API_KEY),
         "TAVILY_KEY_SET": bool(TAVILY_API_KEY),
     })
-    
+        
