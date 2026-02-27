@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { register, login } from "../api";
+
+const BACKEND = "https://ai-teacher-v7.onrender.com";
 
 export default function Login({ onLogin }) {
   const [email, setEmail] = useState("");
@@ -10,19 +11,25 @@ export default function Login({ onLogin }) {
   const handleRegister = async () => {
     if (!name || !email || !password) return alert("Sab fields bharein");
     setLoading(true);
-    const res = await register({ name, email, password });
+    const res = await fetch(`${BACKEND}/register`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password })
+    }).then(r => r.json());
     setLoading(false);
-    if (res.token) { onLogin(res.token, res.name); }
-    else { alert(res.error || "Registration failed"); }
+    if (res.token) onLogin(res.token, res.name, false, 0);
+    else alert(res.error || "Registration failed");
   };
 
   const handleLogin = async () => {
     if (!email || !password) return alert("Email aur password bharein");
     setLoading(true);
-    const res = await login({ email, password });
+    const res = await fetch(`${BACKEND}/login`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password })
+    }).then(r => r.json());
     setLoading(false);
-    if (res.token) { onLogin(res.token, res.name); }
-    else { alert(res.error || "Login failed"); }
+    if (res.token) onLogin(res.token, res.name, res.is_admin, res.coins);
+    else alert(res.error || "Login failed");
   };
 
   return (
