@@ -1,0 +1,7 @@
+Flask
+flask-cors
+PyJWT
+gTTS
+requests
+beautifulsoup4
+pydub
