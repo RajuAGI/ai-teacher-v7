@@ -10,7 +10,7 @@ CORS(app, origins="*")
 
 SECRET_KEY      = os.environ.get("SECRET_KEY", "v7_super_secret")
 DB_PATH         = "ai_teacher_v7.db"
-GROK_API_KEY    = os.environ.get("GROK_API_KEY", "")
+GROQ_API_KEY    = os.environ.get("GROQ_API_KEY", "")
 TAVILY_API_KEY  = os.environ.get("TAVILY_API_KEY", "")
 OPENAI_API_KEY  = os.environ.get("OPENAI_API_KEY", "")
 GEMINI_API_KEY  = os.environ.get("GEMINI_API_KEY", "")
@@ -98,10 +98,10 @@ def tavily_search(query):
 def grok_response(prompt):
     try:
         res = http_requests.post(
-            "https://api.x.ai/v1/chat/completions",
-            headers={"Authorization": f"Bearer {GROK_API_KEY}", "Content-Type": "application/json"},
+            "https://api.groq.com/openai/v1/chat/completions",
+            headers={"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"},
             json={
-                "model": "grok-beta",
+                "model": "llama3-8b-8192",
                 "messages": [
                     {"role": "system", "content": "Tum ek helpful AI teacher ho. Hindi mein jawab do. Simple aur clear explanation do."},
                     {"role": "user", "content": prompt}
@@ -151,11 +151,11 @@ def get_ai_response(prompt, use_search=False):
             prompt = f"{prompt}\n\nWeb se mili info:\n{context}"
 
     answer = None
-    if GROK_API_KEY:    answer = grok_response(prompt)
+    if GROQ_API_KEY:    answer = grok_response(prompt)
     if not answer and OPENAI_API_KEY:  answer = openai_response(prompt)
     if not answer and GEMINI_API_KEY:  answer = gemini_response(prompt)
     if not answer:
-        return "Koi AI key configure nahi hai. Render mein GROK_API_KEY ya GEMINI_API_KEY set karein."
+        return "Koi AI key configure nahi hai. Render mein GROQ_API_KEY set karein."
     return answer
 
 # -------- Routes -------- #
@@ -229,3 +229,4 @@ def leaderboard():
 
 if __name__ == "__main__":
     app.run()
+    
